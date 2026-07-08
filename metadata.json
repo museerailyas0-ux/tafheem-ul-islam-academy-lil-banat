@@ -1,0 +1,6 @@
+{
+  "name": "Tafheem-ul-Islam Academy Lil Banat",
+  "description": "An elegant, premium online Islamic academy exclusively for women and girls, offering courses in Qur'an, Tafseer, Tajweed, Hadith, Fiqh, and Islamic lifestyle.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
