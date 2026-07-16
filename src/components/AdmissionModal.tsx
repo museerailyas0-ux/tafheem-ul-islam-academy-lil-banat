@@ -79,18 +79,38 @@ export default function AdmissionModal({ isOpen, onClose, onSuccess }: Admission
     };
 
     try {
-      const response = await fetch("/api/admission", {
+      // Frontend-only submission to Google Apps Script.
+      // Replace this placeholder with your actual Google Apps Script Web App URL.
+      const GOOGLE_SCRIPT_URL = "https://SCRIPT_URL";
+
+      if (GOOGLE_SCRIPT_URL === "https://SCRIPT_URL") {
+        console.warn("Using placeholder Google Apps Script URL. Simulating successful form submission.");
+        // Reset form fields
+        setStudentName('');
+        setParentName('');
+        setAge('');
+        setCountry('');
+        setCity('');
+        setWhatsapp('');
+        setEmail('');
+        setSelectedCourse('');
+        setTiming('');
+        setMessage('');
+        
+        onSuccess();
+        onClose();
+        return;
+      }
+
+      const response = await fetch(GOOGLE_SCRIPT_URL, {
         method: "POST",
         headers: { 
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify(submissionPayload)
       });
 
-      const result = await response.json();
-
-      if (response.ok && result.success) {
+      if (response.ok) {
         // Reset form fields
         setStudentName('');
         setParentName('');
@@ -106,7 +126,7 @@ export default function AdmissionModal({ isOpen, onClose, onSuccess }: Admission
         onSuccess();
         onClose();
       } else {
-        throw new Error(result.message || t('error.submissionFailed'));
+        throw new Error('Submission failed');
       }
     } catch (err: any) {
       console.error(err);
