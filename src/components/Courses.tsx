@@ -4,22 +4,24 @@
  */
 
 import { useState } from 'react';
+import { useLanguage } from '../LanguageContext';
 import { Course } from '../types';
-import { COURSES_DATA } from '../data';
 import * as Icons from 'lucide-react';
 import { Sparkles, Clock, Calendar, Shield, ArrowRight, X, GraduationCap } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
 
 interface CoursesProps {
   onEnrollClick: () => void;
 }
 
 export default function Courses({ onEnrollClick }: CoursesProps) {
+  const { t, courses } = useLanguage();
   const [selectedCategory, setSelectedCategory] = useState<'All' | 'Quran' | 'Islamic Studies' | 'Lifestyle'>('All');
   const [activeCourse, setActiveCourse] = useState<Course | null>(null);
 
   const filteredCourses = selectedCategory === 'All'
-    ? COURSES_DATA
-    : COURSES_DATA.filter(c => c.category === selectedCategory);
+    ? courses
+    : courses.filter(c => c.category === selectedCategory);
 
   // Dynamic Lucide Icon picker
   const renderIcon = (iconName: string, className: string = "h-6 w-6 text-emerald-medium") => {
@@ -37,40 +39,61 @@ export default function Courses({ onEnrollClick }: CoursesProps) {
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto space-y-4">
           <span className="text-xs font-serif font-bold tracking-widest text-gold-deep uppercase bg-gold-light px-3 py-1.5 rounded-full border border-gold-soft/30">
-            Amanah of Sacred Knowledge
+            {t('courses.badge')}
           </span>
           <h2 className="font-serif text-3xl sm:text-4xl font-extrabold text-neutral-900 tracking-tight leading-tight">
-            Comprehensive Curriculum Designed For
-            <span className="block mt-1 text-transparent bg-clip-text bg-gradient-to-r from-emerald-deep via-emerald-medium to-emerald-light">
-              Spiritual & Intellectual Growth
-            </span>
+            {t('courses.title')}
           </h2>
           <p className="text-sm sm:text-base text-neutral-600 font-light leading-relaxed">
-            Discover a beautiful range of tailored Islamic courses taught in English with high scholarly standards. Ideal for sisters of all backgrounds seeking to build their connection with Allah.
+            {t('courses.desc')}
           </p>
         </div>
 
         {/* Category Filters */}
         <div className="mt-10 flex flex-wrap justify-center gap-2.5 sm:gap-4">
-          {(['All', 'Quran', 'Islamic Studies', 'Lifestyle'] as const).map((category) => (
+          {[
+            { key: 'All', labelKey: 'courses.catAll' },
+            { key: 'Quran', labelKey: 'courses.catQuran' },
+            { key: 'Islamic Studies', labelKey: 'courses.catIslamic' },
+            { key: 'Lifestyle', labelKey: 'courses.catLifestyle' }
+          ].map((cat) => (
             <button
-              key={category}
-              onClick={() => setSelectedCategory(category)}
+              key={cat.key}
+              onClick={() => setSelectedCategory(cat.key as any)}
               className={`px-5 py-2.5 text-xs sm:text-sm font-semibold tracking-wider uppercase rounded-full border transition-all duration-300 ${
-                selectedCategory === category
+                selectedCategory === cat.key
                   ? 'bg-emerald-medium text-white border-emerald-medium shadow-md'
                   : 'bg-white text-neutral-600 border-neutral-200 hover:bg-neutral-100 hover:text-emerald-medium'
               }`}
             >
-              {category === 'Quran' ? 'Qur\'an & Tajweed' : category}
+              {t(cat.labelKey)}
             </button>
           ))}
         </div>
 
-        {/* Courses Grid */}
-        <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {/* Courses Grid with Layout and Staggered Animations */}
+        <motion.div 
+          layout
+          variants={{
+            hidden: { opacity: 0 },
+            show: {
+              opacity: 1,
+              transition: {
+                staggerChildren: 0.05
+              }
+            }
+          }}
+          initial="hidden"
+          animate="show"
+          className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
+        >
           {filteredCourses.map((course) => (
-            <div
+            <motion.div
+              layout
+              variants={{
+                hidden: { opacity: 0, y: 20 },
+                show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 150, damping: 16 } }
+              }}
               key={course.id}
               className="group relative flex flex-col justify-between bg-white rounded-2xl border border-neutral-100 hover:border-gold-metallic/30 p-6 shadow-sm hover:shadow-xl transition-all duration-300 hover:translate-y-[-4px]"
             >
@@ -83,7 +106,11 @@ export default function Courses({ onEnrollClick }: CoursesProps) {
                     ? 'bg-blue-50 text-blue-800' 
                     : 'bg-amber-50 text-amber-800'
                 }`}>
-                  {course.category}
+                  {course.category === 'Quran' 
+                    ? t('courses.catQuran') 
+                    : course.category === 'Islamic Studies' 
+                    ? t('courses.catIslamic') 
+                    : t('courses.catLifestyle')}
                 </span>
               </div>
 
@@ -130,150 +157,166 @@ export default function Courses({ onEnrollClick }: CoursesProps) {
                   onClick={() => setActiveCourse(course)}
                   className="inline-flex items-center space-x-1.5 text-xs font-semibold tracking-wider uppercase text-emerald-medium group-hover:text-gold-deep transition-colors cursor-pointer"
                 >
-                  <span>Syllabus</span>
+                  <span>{t('featCourses.viewSyllabus')}</span>
                   <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-1 transition-transform" />
                 </button>
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
 
       </div>
 
       {/* Course Detail Modal */}
-      {activeCourse && (
-        <div className="fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-          <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-            {/* Background overlay */}
-            <div 
-              onClick={() => setActiveCourse(null)}
-              className="fixed inset-0 bg-neutral-900/70 backdrop-blur-sm transition-opacity" 
-              aria-hidden="true"
-            ></div>
+      <AnimatePresence>
+        {activeCourse && (
+          <div className="fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+            <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+              {/* Background overlay */}
+              <motion.div 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.25 }}
+                onClick={() => setActiveCourse(null)}
+                className="fixed inset-0 bg-neutral-900/70 backdrop-blur-sm transition-opacity" 
+                aria-hidden="true"
+              ></motion.div>
 
-            {/* Trick browser to center modal */}
-            <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+              {/* Trick browser to center modal */}
+              <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
 
-            {/* Modal Panel */}
-            <div className="inline-block align-bottom bg-white rounded-3xl text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-2xl sm:w-full border border-gold-soft/30">
-              {/* Header Decorative Arch */}
-              <div className="bg-emerald-deep px-6 py-6 text-white relative">
-                <button
-                  onClick={() => setActiveCourse(null)}
-                  className="absolute top-4 right-4 text-white/80 hover:text-white bg-white/10 rounded-full p-1.5 focus:outline-none cursor-pointer"
-                >
-                  <X className="h-5 w-5" />
-                </button>
+              {/* Modal Panel */}
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.95, y: 15 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: 10 }}
+                transition={{ type: "spring", stiffness: 220, damping: 22 }}
+                className="inline-block align-bottom bg-white rounded-3xl text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-2xl sm:w-full border border-gold-soft/30"
+              >
+                {/* Header Decorative Arch */}
+                <div className="bg-emerald-deep px-6 py-6 text-white relative">
+                  <button
+                    onClick={() => setActiveCourse(null)}
+                    className="absolute top-4 right-4 text-white/80 hover:text-white bg-white/10 rounded-full p-1.5 focus:outline-none cursor-pointer"
+                  >
+                    <X className="h-5 w-5" />
+                  </button>
 
-                <div className="flex items-center space-x-4">
-                  <div className="inline-flex p-3 bg-gold-metallic/20 border border-gold-soft/30 rounded-xl">
-                    {renderIcon(activeCourse.iconName, "h-7 w-7 text-gold-soft")}
-                  </div>
-                  <div>
-                    <span className="text-[10px] font-semibold uppercase tracking-widest text-gold-soft bg-emerald-medium/60 px-2 py-0.5 rounded border border-gold-soft/20">
-                      {activeCourse.category}
-                    </span>
-                    <h3 className="font-serif text-xl sm:text-2xl font-bold mt-1 text-white">
-                      {activeCourse.title}
-                    </h3>
-                    {activeCourse.arabicTitle && (
-                      <p className="font-arabic text-lg text-gold-soft mt-0.5">
-                        {activeCourse.arabicTitle}
-                      </p>
-                    )}
-                  </div>
-                </div>
-              </div>
-
-              {/* Content Panel */}
-              <div className="px-6 py-6 space-y-6 max-h-[60vh] overflow-y-auto bg-neutral-50">
-                
-                {/* Long Description */}
-                <div className="space-y-2">
-                  <h4 className="text-xs font-serif font-bold text-neutral-400 uppercase tracking-widest">
-                    Course Summary & Vision
-                  </h4>
-                  <p className="text-sm text-neutral-600 font-light leading-relaxed">
-                    {activeCourse.longDesc}
-                  </p>
-                </div>
-
-                {/* Key Schedule Metadata */}
-                <div className="grid grid-cols-2 gap-4 bg-white p-4 rounded-xl border border-neutral-100">
-                  <div className="space-y-1">
-                    <p className="text-[10px] text-neutral-400 font-bold uppercase tracking-wider flex items-center gap-1">
-                      <Clock className="h-3 w-3 text-gold-deep" />
-                      <span>Duration</span>
-                    </p>
-                    <p className="text-xs sm:text-sm text-neutral-800 font-medium">{activeCourse.duration}</p>
-                  </div>
-                  <div className="space-y-1">
-                    <p className="text-[10px] text-neutral-400 font-bold uppercase tracking-wider flex items-center gap-1">
-                      <Calendar className="h-3 w-3 text-gold-deep" />
-                      <span>Class Timings</span>
-                    </p>
-                    <p className="text-xs sm:text-sm text-neutral-800 font-medium">{activeCourse.frequency}</p>
-                  </div>
-                </div>
-
-                {/* Features & Benefits */}
-                <div className="space-y-3">
-                  <h4 className="text-xs font-serif font-bold text-neutral-400 uppercase tracking-widest flex items-center gap-1.5">
-                    <Sparkles className="h-3.5 w-3.5 text-gold-deep" />
-                    <span>Special Course Benefits</span>
-                  </h4>
-                  <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                    {activeCourse.features.map((feat, idx) => (
-                      <li key={idx} className="flex items-start space-x-2 text-xs text-neutral-600 leading-normal">
-                        <span className="inline-block h-1.5 w-1.5 rounded-full bg-emerald-medium mt-1.5 shrink-0" />
-                        <span>{feat}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                {/* Step by step syllabus */}
-                <div className="space-y-3">
-                  <h4 className="text-xs font-serif font-bold text-neutral-400 uppercase tracking-widest">
-                    Detailed Syllabus Outline
-                  </h4>
-                  <div className="space-y-2.5">
-                    {activeCourse.syllabus.map((step, idx) => (
-                      <div key={idx} className="flex items-center space-x-3 bg-white p-3 rounded-lg border border-neutral-100">
-                        <span className="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-bg text-emerald-medium text-xs font-bold font-serif border border-emerald-medium/10">
-                          0{idx + 1}
-                        </span>
-                        <p className="text-xs sm:text-sm text-neutral-700 font-light">
-                          {step}
+                  <div className="flex items-center space-x-4">
+                    <div className="inline-flex p-3 bg-gold-metallic/20 border border-gold-soft/30 rounded-xl">
+                      {renderIcon(activeCourse.iconName, "h-7 w-7 text-gold-soft")}
+                    </div>
+                    <div>
+                      <span className="text-[10px] font-semibold uppercase tracking-widest text-gold-soft bg-emerald-medium/60 px-2 py-0.5 rounded border border-gold-soft/20">
+                        {activeCourse.category === 'Quran' 
+                          ? t('courses.catQuran') 
+                          : activeCourse.category === 'Islamic Studies' 
+                          ? t('courses.catIslamic') 
+                          : t('courses.catLifestyle')}
+                      </span>
+                      <h3 className="font-serif text-xl sm:text-2xl font-bold mt-1 text-white">
+                        {activeCourse.title}
+                      </h3>
+                      {activeCourse.arabicTitle && (
+                        <p className="font-arabic text-lg text-gold-soft mt-0.5">
+                          {activeCourse.arabicTitle}
                         </p>
-                      </div>
-                    ))}
+                      )}
+                    </div>
                   </div>
                 </div>
 
-              </div>
+                {/* Content Panel */}
+                <div className="px-6 py-6 space-y-6 max-h-[60vh] overflow-y-auto bg-neutral-50">
+                  
+                  {/* Long Description */}
+                  <div className="space-y-2">
+                    <h4 className="text-xs font-serif font-bold text-neutral-400 uppercase tracking-widest">
+                      {t('courses.pathwayHeading')}
+                    </h4>
+                    <p className="text-sm text-neutral-600 font-light leading-relaxed">
+                      {activeCourse.longDesc}
+                    </p>
+                  </div>
 
-              {/* Footer Actions */}
-              <div className="bg-white px-6 py-4 border-t border-neutral-100 flex flex-col sm:flex-row items-center justify-between gap-4">
-                <p className="text-[11px] text-neutral-400 italic">
-                  * 100% Female Scholars, Private and Flexible *
-                </p>
-                <button
-                  onClick={() => {
-                    setActiveCourse(null);
-                    onEnrollClick();
-                  }}
-                  className="w-full sm:w-auto flex items-center justify-center space-x-2 bg-gradient-to-r from-gold-deep via-gold-metallic to-gold-deep text-emerald-deep px-6 py-2.5 rounded-full text-xs font-bold tracking-wider uppercase shadow-md hover:scale-[1.03] transition-transform cursor-pointer"
-                >
-                  <GraduationCap className="h-4 w-4" />
-                  <span>Request Seat</span>
-                </button>
-              </div>
+                  {/* Key Schedule Metadata */}
+                  <div className="grid grid-cols-2 gap-4 bg-white p-4 rounded-xl border border-neutral-100">
+                    <div className="space-y-1">
+                      <p className="text-[10px] text-neutral-400 font-bold uppercase tracking-wider flex items-center gap-1">
+                        <Clock className="h-3 w-3 text-gold-deep" />
+                        <span>{t('courses.durationLabel')}</span>
+                      </p>
+                      <p className="text-xs sm:text-sm text-neutral-800 font-medium">{activeCourse.duration}</p>
+                    </div>
+                    <div className="space-y-1">
+                      <p className="text-[10px] text-neutral-400 font-bold uppercase tracking-wider flex items-center gap-1">
+                        <Calendar className="h-3 w-3 text-gold-deep" />
+                        <span>{t('courses.freqLabel')}</span>
+                      </p>
+                      <p className="text-xs sm:text-sm text-neutral-800 font-medium">{activeCourse.frequency}</p>
+                    </div>
+                  </div>
 
+                  {/* Features & Benefits */}
+                  <div className="space-y-3">
+                    <h4 className="text-xs font-serif font-bold text-neutral-400 uppercase tracking-widest flex items-center gap-1.5">
+                      <Sparkles className="h-3.5 w-3.5 text-gold-deep" />
+                      <span>{t('courses.featHeading')}</span>
+                    </h4>
+                    <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      {activeCourse.features.map((feat, idx) => (
+                        <li key={idx} className="flex items-start space-x-2 text-xs text-neutral-600 leading-normal">
+                          <span className="inline-block h-1.5 w-1.5 rounded-full bg-emerald-medium mt-1.5 shrink-0" />
+                          <span>{feat}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  {/* Step by step syllabus */}
+                  <div className="space-y-3">
+                    <h4 className="text-xs font-serif font-bold text-neutral-400 uppercase tracking-widest">
+                      {t('courses.syllabusHeading')}
+                    </h4>
+                    <div className="space-y-2.5">
+                      {activeCourse.syllabus.map((step, idx) => (
+                        <div key={idx} className="flex items-center space-x-3 bg-white p-3 rounded-lg border border-neutral-100">
+                          <span className="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-bg text-emerald-medium text-xs font-bold font-serif border border-emerald-medium/10">
+                            0{idx + 1}
+                          </span>
+                          <p className="text-xs sm:text-sm text-neutral-700 font-light">
+                            {step}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                </div>
+
+                {/* Footer Actions */}
+                <div className="bg-white px-6 py-4 border-t border-neutral-100 flex flex-col sm:flex-row items-center justify-between gap-4">
+                  <p className="text-[11px] text-neutral-400 italic">
+                    * 100% Female Scholars, Private and Flexible *
+                  </p>
+                  <button
+                    onClick={() => {
+                      setActiveCourse(null);
+                      onEnrollClick();
+                    }}
+                    className="w-full sm:w-auto flex items-center justify-center space-x-2 bg-gradient-to-r from-gold-deep via-gold-metallic to-gold-deep text-emerald-deep px-6 py-2.5 rounded-full text-xs font-bold tracking-wider uppercase shadow-md hover:scale-[1.03] transition-transform cursor-pointer"
+                  >
+                    <GraduationCap className="h-4 w-4" />
+                    <span>{t('courses.enrollBtn')}</span>
+                  </button>
+                </div>
+
+              </motion.div>
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </AnimatePresence>
     </section>
   );
 }

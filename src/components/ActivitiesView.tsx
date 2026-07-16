@@ -3,15 +3,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ACTIVITIES_DATA } from '../data';
-import { Award, Trophy, Star, BookOpen, Presentation, Sparkles, CheckCircle, Clock, GraduationCap, Users } from 'lucide-react';
+import { useLanguage } from '../LanguageContext';
+import { Award, Trophy, Star, BookOpen, Presentation, Sparkles, Clock, GraduationCap, Users } from 'lucide-react';
 
 export default function ActivitiesView() {
+  const { t, activities } = useLanguage();
   
   // Categorize activities for clear display
-  const competitions = ACTIVITIES_DATA.filter(a => a.category === 'Competition');
-  const achievements = ACTIVITIES_DATA.filter(a => a.category === 'Achievement');
-  const otherActivities = ACTIVITIES_DATA.filter(a => a.category !== 'Competition' && a.category !== 'Achievement');
+  const competitions = activities.filter(a => a.category === 'Competition');
+  const achievements = activities.filter(a => a.category === 'Achievement');
+  const otherActivities = activities.filter(a => a.category !== 'Competition' && a.category !== 'Achievement');
 
   return (
     <div id="activities-view" className="bg-neutral-50 py-12 sm:py-16 space-y-16">
@@ -20,16 +21,13 @@ export default function ActivitiesView() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-3xl mx-auto space-y-4">
           <span className="text-xs font-serif font-bold tracking-widest text-gold-deep uppercase bg-gold-light px-3 py-1.5 rounded-full border border-gold-soft/30">
-            Enriching Student Life
+            {t('activities.badge')}
           </span>
           <h2 className="font-serif text-3xl sm:text-4xl font-extrabold text-neutral-900 tracking-tight leading-tight">
-            Academic Excellence, Competitions &
-            <span className="block mt-1 text-transparent bg-clip-text bg-gradient-to-r from-emerald-deep via-emerald-medium to-emerald-light">
-              Inspiring Educational Activities
-            </span>
+            {t('activities.title')}
           </h2>
           <p className="text-sm sm:text-base text-neutral-600 font-light leading-relaxed">
-            At Tafheem-ul-Islam Academy, we believe in active, engaging, and comprehensive character building. We motivate our sisters through interactive competitions, certificates, and shields of honor.
+            {t('activities.desc')}
           </p>
         </div>
       </div>
@@ -39,37 +37,37 @@ export default function ActivitiesView() {
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-5">
           {[
             {
-              val: "8+ Years",
-              label: "Continuous Tafseer Program",
-              desc: "An ongoing journey of studying, understanding, and implementing the word of Allah.",
+              val: t('ach.item1.val'),
+              label: t('ach.item1.label'),
+              desc: t('ach.item1.desc'),
               icon: Clock,
               color: "border-emerald-medium/20 hover:border-emerald-medium"
             },
             {
-              val: "24+ Juz",
-              label: "Successfully Completed",
-              desc: "Sisters successfully completed the word-by-word Tafseer and translation of the Holy Quran.",
+              val: t('ach.item2.val'),
+              label: t('ach.item2.label'),
+              desc: t('ach.item2.desc'),
               icon: BookOpen,
               color: "border-gold-deep/20 hover:border-gold-deep"
             },
             {
-              val: "Many Students",
-              label: "Have Successfully Completed Hifz-ul-Qur'an",
-              desc: "Dedicated sisters who have memorized the entire Quran with beautiful and flawless Tajweed.",
+              val: t('ach.item3.val'),
+              label: t('ach.item3.label'),
+              desc: t('ach.item3.desc'),
               icon: GraduationCap,
               color: "border-emerald-medium/20 hover:border-emerald-medium"
             },
             {
-              val: "25+ Courses",
-              label: "Conducted",
-              desc: "Extensive Islamic courses ranging from Fiqh, Hadith, to Tarbiyah and character building.",
+              val: t('ach.item4.val'),
+              label: t('ach.item4.label'),
+              desc: t('ach.item4.desc'),
               icon: Award,
               color: "border-gold-deep/20 hover:border-gold-deep"
             },
             {
-              val: "Global Students",
-              label: "Online Learning",
-              desc: "Connecting sisters from multiple international time zones, cities, and countries.",
+              val: t('ach.item5.val'),
+              label: t('ach.item5.label'),
+              desc: t('ach.item5.desc'),
               icon: Users,
               color: "border-emerald-medium/20 hover:border-emerald-medium"
             }
@@ -102,7 +100,7 @@ export default function ActivitiesView() {
           <div className="flex items-center space-x-3 border-b border-neutral-200 pb-3">
             <Trophy className="h-6 w-6 text-gold-deep shrink-0" />
             <h3 className="font-serif text-xl sm:text-2xl font-bold text-neutral-900 tracking-tight">
-              Prestigious Achievements & Honors
+              {t('activities.btnAchievements')}
             </h3>
           </div>
 
@@ -145,7 +143,7 @@ export default function ActivitiesView() {
           <div className="flex items-center space-x-3 border-b border-neutral-200 pb-3">
             <Star className="h-6 w-6 text-emerald-medium shrink-0" />
             <h3 className="font-serif text-xl sm:text-2xl font-bold text-neutral-900 tracking-tight">
-              Annual Motivating Competitions
+              {t('activities.btnCompetitions')}
             </h3>
           </div>
 
@@ -185,7 +183,7 @@ export default function ActivitiesView() {
           <div className="flex items-center space-x-3 border-b border-neutral-200 pb-3">
             <Presentation className="h-6 w-6 text-emerald-medium shrink-0" />
             <h3 className="font-serif text-xl sm:text-2xl font-bold text-neutral-900 tracking-tight">
-              Extracurricular & Public Seminars
+              {t('activities.btnWebinars')}
             </h3>
           </div>
 
@@ -197,7 +195,7 @@ export default function ActivitiesView() {
               >
                 <div className="flex items-center justify-between">
                   <span className="text-[10px] font-semibold bg-neutral-100 text-neutral-600 px-2.5 py-0.5 rounded uppercase">
-                    {item.category}
+                    {item.category === 'Webinar' ? t('activities.btnWebinars') : t('activities.btnOther')}
                   </span>
                   {item.badge && (
                     <span className="text-[9px] font-bold text-gold-deep uppercase">

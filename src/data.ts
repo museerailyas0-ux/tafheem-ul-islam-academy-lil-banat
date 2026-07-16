@@ -33,6 +33,32 @@ export const COURSES_DATA: Course[] = [
     iconName: 'BookOpen'
   },
   {
+    id: 'nazra-tajweed',
+    title: 'Nazra Quran with Tajweed',
+    arabicTitle: 'ناظرة القرآن الكريم مع التجويد',
+    shortDesc: 'We also offer Nazra Quran with Tajweed classes, helping students recite the Holy Quran with correct pronunciation, proper Tajweed rules, confidence, and fluency under qualified female teachers.',
+    longDesc: 'We offer specialized Nazra Quran with Tajweed classes designed to help students of all ages recite the Holy Quran with correct pronunciation, proper Tajweed rules, confidence, and fluency. Under the personal guidance of qualified female teachers, students will practice fluent recitation of the Book of Allah directly from the Mus\'haf, developing a beautiful connection with the words of Allah.',
+    duration: '6 Months',
+    frequency: '3 days a week (30-45 min sessions)',
+    level: 'Beginner',
+    category: 'Quran',
+    features: [
+      'Recitation of the Holy Quran with correct pronunciation',
+      'Practical implementation of basic and core Tajweed rules',
+      'Gaining confidence and fluency in recitation',
+      'Personalized guidance under qualified female teachers',
+      'Memorization of daily Supplications (Adhkar) and short Surahs'
+    ],
+    syllabus: [
+      'Basic phonetic articulation and fluency exercises',
+      'Guided reading of selected parts of the Quran',
+      'Practical application of rules of elongation and stopping',
+      'Fluent reading practice directly from the Mus\'haf',
+      'Final assessment and certification of recitation fluency'
+    ],
+    iconName: 'BookOpen'
+  },
+  {
     id: 'hifz-quran',
     title: 'Hifz-ul-Qur\'an (Memorization)',
     arabicTitle: 'حفظ القرآن الكريم',
@@ -238,7 +264,7 @@ export const TESTIMONIALS_DATA: Testimonial[] = [
     name: 'Zainab Tariq',
     role: 'Hifz Student',
     location: 'Pakistan',
-    quote: 'The personalized Quran memorization plan here is spectacular. My teacher listens to my sabaq with full attention, correcting my tajweed with gentle care. The regular monthly tests have helped me solidify my dhor. Alhamdulillah for this non-profit blessing!',
+    quote: 'The personalized Quran memorization plan here is spectacular. My teacher listens to my sabaq with full attention, correcting my tajweed with gentle care. The regular monthly tests have helped me solidify my dhor. Alhamdulillah for this welfare-oriented blessing!',
     rating: 5
   },
   {
@@ -267,13 +293,13 @@ export const FAQS_DATA: FAQItem[] = [
   {
     id: 'faq3',
     question: 'What are the qualifications of Ustadha Habiba Ilyas?',
-    answer: 'Our beloved teacher, Ustadha Habiba Ilyas, is a distinguished graduate of Wifaq-ul-Madaris Al-Arabia (the largest and most prestigious Islamic seminary board in Pakistan) and achieved the prestigious First Position (Top Rank) in the entire Sindh region in the Wifaq examinations. She brings years of classical teaching experience specializing in Tajweed, Tafseer, and Fiqh in a highly respectful and professional environment.',
+    answer: 'Our beloved teacher, Ustadha Habiba Ilyas, is a distinguished graduate of Wifaq-ul-Madaris Al-Arabia (the largest and most prestigious Islamic seminary board in Pakistan). Our respected teacher has consistently earned distinguished positions at the Pakistan level and continues to receive national-level positions in Wifaq examinations for three consecutive years. She brings years of classical teaching experience specializing in Tajweed, Tafseer, and Fiqh in a highly respectful and professional environment.',
     category: 'Academy'
   },
   {
     id: 'faq4',
-    question: 'Is there a fee for these courses, since the academy is non-profit?',
-    answer: 'Tafheem-ul-Islam Academy is a registered non-profit educational mission. Basic classes are provided for free or for nominal maintenance contributions that support our technology infrastructure and dedicated female staff. No deserving student is ever turned away due to lack of financial resources.',
+    question: 'Are classes free or paid at the academy?',
+    answer: 'Tafheem-ul-Islam Academy is a welfare-oriented (Falahi) and educational (Tarbiyati) seminary. Some group courses and basic classes are completely free of charge for sisters who can study in groups where applicable. However, individual (One-to-One) classes and some specialized courses are paid. Individual classes are paid because they require dedicated, one-on-one attention from our expert teachers, which helps support the academy\'s operations and allows us to keep group classes completely free for deserving sisters.',
     category: 'Fees'
   },
   {

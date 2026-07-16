@@ -4,9 +4,11 @@
  */
 
 import { useState, useEffect } from 'react';
+import { useLanguage } from '../LanguageContext';
 import { MessageSquareText, Sparkles, X } from 'lucide-react';
 
 export default function FloatingWhatsApp() {
+  const { t } = useLanguage();
   const [showTooltip, setShowTooltip] = useState(false);
 
   useEffect(() => {
@@ -39,10 +41,10 @@ export default function FloatingWhatsApp() {
           </div>
           <div>
             <p className="text-[11px] font-serif font-bold text-emerald-deep tracking-wide leading-none">
-              Assalamu Alaikum!
+              {t('whatsapp.coordinator')}
             </p>
             <p className="text-[10px] text-neutral-500 font-light leading-normal mt-1 pr-2">
-              Have questions about courses or schedules? Sister Zainab is online to help you on WhatsApp.
+              {t('whatsapp.hello')}
             </p>
           </div>
         </div>
@@ -56,7 +58,7 @@ export default function FloatingWhatsApp() {
         <button
           onClick={handleWhatsAppRedirect}
           className="relative flex h-14 w-14 items-center justify-center rounded-full bg-emerald-medium text-white shadow-2xl hover:scale-[1.08] transition-transform duration-300 border border-gold-soft/20 cursor-pointer"
-          aria-label="Contact us on WhatsApp"
+          aria-label={t('whatsapp.btn')}
         >
           {/* Custom SVG logo representing WhatsApp or speech bubble */}
           <MessageSquareText className="h-6 w-6 text-white" />

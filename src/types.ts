@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export type ActivePage = 'home' | 'about' | 'courses' | 'principal' | 'activities' | 'faq' | 'contact';
+export type ActivePage = 'home' | 'about' | 'courses' | 'principal' | 'activities' | 'faq' | 'contact' | 'admission';
 
 export interface Course {
   id: string;

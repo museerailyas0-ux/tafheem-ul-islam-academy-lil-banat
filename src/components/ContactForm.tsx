@@ -4,9 +4,12 @@
  */
 
 import { useState, FormEvent } from 'react';
-import { Mail, Phone, MapPin, Send, CheckCircle, Clock, Sparkles } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, CheckCircle, Clock } from 'lucide-react';
+import { useLanguage } from '../LanguageContext';
 
 export default function ContactForm() {
+  const { t } = useLanguage();
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -50,16 +53,13 @@ export default function ContactForm() {
           <div className="lg:col-span-5 space-y-8">
             <div className="space-y-3">
               <span className="text-xs font-serif font-bold tracking-widest text-emerald-medium uppercase bg-emerald-bg px-3 py-1 rounded-full border border-emerald-medium/10">
-                Join our Global Sisterhood
+                {t('contact.badge')}
               </span>
               <h2 className="font-serif text-3xl sm:text-4xl font-extrabold text-neutral-900 tracking-tight leading-none">
-                Get In Touch & <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-deep via-emerald-medium to-emerald-light">
-                  Request Enrollment
-                </span>
+                {t('contact.title')}
               </h2>
               <p className="text-sm sm:text-base text-neutral-600 font-light leading-relaxed">
-                Applying is completely free and takes less than two minutes. Once we receive your request, our admissions sister will reach out to you via WhatsApp or Email to schedule your free diagnostic assessment.
+                {t('contact.desc')}
               </p>
             </div>
 
@@ -67,11 +67,11 @@ export default function ContactForm() {
             <div className="space-y-4">
               
               <div className="flex items-center space-x-4 bg-white p-4 rounded-xl border border-neutral-100 shadow-sm">
-                <div className="p-3 bg-emerald-bg text-emerald-medium rounded-lg">
+                <div className="p-3 bg-emerald-bg text-emerald-medium rounded-lg shrink-0">
                   <Mail className="h-5 w-5" />
                 </div>
                 <div>
-                  <h4 className="text-xs font-bold text-neutral-400 uppercase tracking-widest">Email Address</h4>
+                  <h4 className="text-xs font-bold text-neutral-400 uppercase tracking-widest">{t('contact.emailCard')}</h4>
                   <p>
                     <a href="mailto:umesemaal@gmail.com" className="text-xs sm:text-sm text-neutral-800 font-semibold hover:text-emerald-medium hover:underline transition-colors">
                       umesemaal@gmail.com
@@ -81,11 +81,11 @@ export default function ContactForm() {
               </div>
 
               <div className="flex items-center space-x-4 bg-white p-4 rounded-xl border border-neutral-100 shadow-sm">
-                <div className="p-3 bg-emerald-bg text-emerald-medium rounded-lg">
+                <div className="p-3 bg-emerald-bg text-emerald-medium rounded-lg shrink-0">
                   <Phone className="h-5 w-5" />
                 </div>
                 <div>
-                  <h4 className="text-xs font-bold text-neutral-400 uppercase tracking-widest">Phone / WhatsApp</h4>
+                  <h4 className="text-xs font-bold text-neutral-400 uppercase tracking-widest">{t('contact.phoneCard')}</h4>
                   <p>
                     <a href="tel:+923232358394" className="text-xs sm:text-sm text-neutral-800 font-semibold hover:text-emerald-medium hover:underline transition-colors">
                       +92 323 2358394
@@ -99,9 +99,9 @@ export default function ContactForm() {
                   <MapPin className="h-5 w-5" />
                 </div>
                 <div className="space-y-2 w-full">
-                  <h4 className="text-xs font-bold text-neutral-400 uppercase tracking-widest">Online Classes</h4>
+                  <h4 className="text-xs font-bold text-neutral-400 uppercase tracking-widest">{t('contact.onlineCard')}</h4>
                   <p className="text-xs sm:text-sm text-neutral-800 font-semibold leading-relaxed">
-                    Via WhatsApp, Zoom and Google Meet
+                    {t('contact.onlinePlatforms')}
                   </p>
                   
                   {/* Modern icons for WhatsApp, Zoom, Google Meet */}
@@ -145,10 +145,10 @@ export default function ContactForm() {
             <div className="bg-gold-light/40 border border-gold-soft/30 p-5 rounded-2xl space-y-2">
               <h5 className="text-xs font-serif font-bold text-gold-deep uppercase tracking-widest flex items-center gap-1.5">
                 <Clock className="h-4 w-4" />
-                <span>Admissions Support Hours</span>
+                <span>{t('contact.hoursTitle')}</span>
               </h5>
               <p className="text-xs text-neutral-600 font-light leading-relaxed">
-                Our admissions team operates Monday to Saturday from 9:00 AM to 6:00 PM (GMT+5). Since we receive requests from over 20+ countries, please allow up to 24 hours for a personalized response.
+                {t('contact.hoursDesc')}
               </p>
             </div>
 
@@ -166,17 +166,17 @@ export default function ContactForm() {
                   </div>
                   <div className="space-y-2">
                     <h3 className="font-serif text-xl sm:text-2xl font-bold text-neutral-900">
-                      Jazakillahu Khairan!
+                      {t('contact.success')}
                     </h3>
                     <p className="text-xs sm:text-sm text-neutral-600 font-light max-w-md mx-auto leading-relaxed">
-                      Your inquiry has been successfully received by Tafheem-ul-Islam Academy. An admissions sister will contact you shortly on WhatsApp to coordinate your placement interview.
+                      {t('contact.successDesc')}
                     </p>
                   </div>
                   <button
                     onClick={() => setIsSubmitted(false)}
                     className="inline-flex items-center space-x-2 px-6 py-2.5 bg-emerald-medium text-white rounded-full text-xs font-bold tracking-wider uppercase shadow-md hover:bg-emerald-deep transition-colors"
                   >
-                    <span>Submit another request</span>
+                    <span>{t('contact.btnAnother')}</span>
                   </button>
                 </div>
               ) : (
@@ -185,11 +185,11 @@ export default function ContactForm() {
                   <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                     {/* Full Name */}
                     <div className="space-y-1.5">
-                      <label className="text-xs font-bold text-neutral-500 uppercase tracking-wider">Student Name *</label>
+                      <label className="text-xs font-bold text-neutral-500 uppercase tracking-wider">{t('contact.lblLabelName')}</label>
                       <input
                         type="text"
                         required
-                        placeholder="e.g. Aisha Siddiqua"
+                        placeholder={t('contact.placeholderName')}
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                         className="w-full rounded-xl border border-neutral-200 bg-neutral-50 px-4 py-3 text-xs sm:text-sm text-neutral-800 placeholder-neutral-400 focus:border-emerald-medium focus:bg-white focus:outline-none transition-all"
@@ -198,11 +198,11 @@ export default function ContactForm() {
 
                     {/* Email */}
                     <div className="space-y-1.5">
-                      <label className="text-xs font-bold text-neutral-500 uppercase tracking-wider">Email Address *</label>
+                      <label className="text-xs font-bold text-neutral-500 uppercase tracking-wider">{t('contact.lblLabelEmail')}</label>
                       <input
                         type="email"
                         required
-                        placeholder="e.g. student@example.com"
+                        placeholder={t('contact.placeholderEmail')}
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                         className="w-full rounded-xl border border-neutral-200 bg-neutral-50 px-4 py-3 text-xs sm:text-sm text-neutral-800 placeholder-neutral-400 focus:border-emerald-medium focus:bg-white focus:outline-none transition-all"
@@ -213,11 +213,11 @@ export default function ContactForm() {
                   <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                     {/* Phone/WhatsApp */}
                     <div className="space-y-1.5">
-                      <label className="text-xs font-bold text-neutral-500 uppercase tracking-wider">WhatsApp Phone Number *</label>
+                      <label className="text-xs font-bold text-neutral-500 uppercase tracking-wider">{t('contact.lblLabelPhone')}</label>
                       <input
                         type="tel"
                         required
-                        placeholder="e.g. +44 7123 456789"
+                        placeholder={t('contact.placeholderPhone')}
                         value={formData.phone}
                         onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                         className="w-full rounded-xl border border-neutral-200 bg-neutral-50 px-4 py-3 text-xs sm:text-sm text-neutral-800 placeholder-neutral-400 focus:border-emerald-medium focus:bg-white focus:outline-none transition-all"
@@ -226,11 +226,11 @@ export default function ContactForm() {
 
                     {/* Country */}
                     <div className="space-y-1.5">
-                      <label className="text-xs font-bold text-neutral-500 uppercase tracking-wider">Country of Residence *</label>
+                      <label className="text-xs font-bold text-neutral-500 uppercase tracking-wider">{t('contact.lblLabelCountry')}</label>
                       <input
                         type="text"
                         required
-                        placeholder="e.g. United Kingdom"
+                        placeholder={t('contact.placeholderCountry')}
                         value={formData.country}
                         onChange={(e) => setFormData({ ...formData, country: e.target.value })}
                         className="w-full rounded-xl border border-neutral-200 bg-neutral-50 px-4 py-3 text-xs sm:text-sm text-neutral-800 placeholder-neutral-400 focus:border-emerald-medium focus:bg-white focus:outline-none transition-all"
@@ -241,43 +241,44 @@ export default function ContactForm() {
                   <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                     {/* Course selection */}
                     <div className="space-y-1.5">
-                      <label className="text-xs font-bold text-neutral-500 uppercase tracking-wider">Desired Course *</label>
+                      <label className="text-xs font-bold text-neutral-500 uppercase tracking-wider">{t('contact.lblLabelCourse')}</label>
                       <select
                         value={formData.course}
                         onChange={(e) => setFormData({ ...formData, course: e.target.value })}
                         className="w-full rounded-xl border border-neutral-200 bg-neutral-50 px-4 py-3 text-xs sm:text-sm text-neutral-800 focus:border-emerald-medium focus:bg-white focus:outline-none transition-all"
                       >
-                        <option value="tajweed-quran">Qur'an Reading with Tajweed</option>
-                        <option value="hifz-quran">Hifz-ul-Qur'an (Memorization)</option>
-                        <option value="tafseer-quran">Tafseer & Translation of Qur'an</option>
-                        <option value="hadith-studies">Hadith Studies</option>
-                        <option value="fiqh-studies">Fiqh & Masail</option>
-                        <option value="seerah-studies">Seerah-tun-Nabi ﷺ</option>
-                        <option value="islamic-lifestyle">Islamic Lifestyle & Tarbiyah</option>
+                        <option value="tajweed-quran">{t('courses.course1.title')}</option>
+                        <option value="nazra-quran">{t('courses.course8.title')}</option>
+                        <option value="hifz-quran">{t('courses.course2.title')}</option>
+                        <option value="tafseer-quran">{t('courses.course3.title')}</option>
+                        <option value="hadith-studies">{t('courses.course4.title')}</option>
+                        <option value="fiqh-studies">{t('courses.course5.title')}</option>
+                        <option value="seerah-studies">{t('courses.course6.title')}</option>
+                        <option value="islamic-lifestyle">{t('courses.course7.title')}</option>
                       </select>
                     </div>
 
                     {/* Age Group */}
                     <div className="space-y-1.5">
-                      <label className="text-xs font-bold text-neutral-500 uppercase tracking-wider">Student Age Group *</label>
+                      <label className="text-xs font-bold text-neutral-500 uppercase tracking-wider">{t('contact.lblLabelAge')}</label>
                       <select
                         value={formData.ageGroup}
                         onChange={(e) => setFormData({ ...formData, ageGroup: e.target.value })}
                         className="w-full rounded-xl border border-neutral-200 bg-neutral-50 px-4 py-3 text-xs sm:text-sm text-neutral-800 focus:border-emerald-medium focus:bg-white focus:outline-none transition-all"
                       >
-                        <option value="under-12">Girl (Under 12 years)</option>
-                        <option value="12-18">Teen Girl (12 - 18 years)</option>
-                        <option value="18-above">Woman (18+ years)</option>
+                        <option value="under-12">{t('contact.ageUnder12')}</option>
+                        <option value="12-18">{t('contact.age12to18')}</option>
+                        <option value="18-above">{t('contact.age18above')}</option>
                       </select>
                     </div>
                   </div>
 
                   {/* Message/Questions */}
                   <div className="space-y-1.5">
-                    <label className="text-xs font-bold text-neutral-500 uppercase tracking-wider">Message & Prior Quranic Background</label>
+                    <label className="text-xs font-bold text-neutral-500 uppercase tracking-wider">{t('contact.lblLabelMessage')}</label>
                     <textarea
                       rows={4}
-                      placeholder="Share any details about your current Quran reading proficiency or questions you may have."
+                      placeholder={t('contact.placeholderMessage')}
                       value={formData.message}
                       onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                       className="w-full rounded-xl border border-neutral-200 bg-neutral-50 px-4 py-3 text-xs sm:text-sm text-neutral-800 placeholder-neutral-400 focus:border-emerald-medium focus:bg-white focus:outline-none transition-all resize-none"
@@ -292,7 +293,7 @@ export default function ContactForm() {
                       className="w-full flex items-center justify-center space-x-2 bg-gradient-to-r from-emerald-deep to-emerald-medium text-white font-bold tracking-wider uppercase py-4 rounded-xl shadow-md hover:scale-[1.01] transition-transform disabled:opacity-50 cursor-pointer"
                     >
                       <Send className="h-4 w-4 text-gold-soft" />
-                      <span>{isSubmitting ? 'Submitting Request...' : 'Send Admission Request'}</span>
+                      <span>{isSubmitting ? t('contact.btnSubmitting') : t('contact.btnSubmit')}</span>
                     </button>
                   </div>
 
@@ -307,3 +308,4 @@ export default function ContactForm() {
     </section>
   );
 }
+

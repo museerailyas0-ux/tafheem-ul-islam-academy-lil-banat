@@ -4,27 +4,30 @@
  */
 
 import { Target, Eye, Sparkles, Shield, Lock, Users, Award } from 'lucide-react';
+import { useLanguage } from '../LanguageContext';
 
 export default function AboutUsView() {
+  const { t } = useLanguage();
+
   const values = [
     {
-      title: "Spiritual Taqwa (Piety)",
-      desc: "Our primary objective is to nurture sincerity (Ikhlas) and God-consciousness (Taqwa) in our students, ensuring knowledge leads to practical obedience to Allah.",
+      title: t('values.val1.title'),
+      desc: t('values.val1.desc'),
       icon: Eye
     },
     {
-      title: "Uncompromising Modesty (Haya)",
-      desc: "An atmosphere built strictly around the Islamic codes of modesty. Supported exclusively by female teachers, with privacy-focused live digital classrooms.",
+      title: t('values.val2.title'),
+      desc: t('values.val2.desc'),
       icon: Lock
     },
     {
-      title: "Academic Excellence",
-      desc: "We follow the highest educational standards of Wifaq-ul-Madaris Al-Arabia, utilizing highly detailed syllabi, structured testing, and interactive presentations.",
+      title: t('values.val3.title'),
+      desc: t('values.val3.desc'),
       icon: Award
     },
     {
-      title: "Global Accessibility",
-      desc: "Our non-profit model keeps education affordable and flexible across major timezones (US, UK, Middle East, Pakistan) so no sister is left behind.",
+      title: t('values.val4.title'),
+      desc: t('values.val4.desc'),
       icon: Users
     }
   ];
@@ -36,16 +39,16 @@ export default function AboutUsView() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-3xl mx-auto space-y-4">
           <span className="text-xs font-serif font-bold tracking-widest text-gold-deep uppercase bg-gold-light px-3 py-1.5 rounded-full border border-gold-soft/30">
-            Learn Our Heritage
+            {t('aboutUs.badge')}
           </span>
           <h2 className="font-serif text-3xl sm:text-4xl font-extrabold text-neutral-900 tracking-tight leading-tight">
-            Nurturing Pure Minds with
+            {t('aboutUs.title')}
             <span className="block mt-1 text-transparent bg-clip-text bg-gradient-to-r from-emerald-deep via-emerald-medium to-emerald-light">
-              Prophetic Guidance & Light
+              {t('aboutUs.titleHighlight')}
             </span>
           </h2>
           <p className="text-sm sm:text-base text-neutral-600 font-light leading-relaxed">
-            Tafheem-ul-Islam Academy Lil Banat was founded with a single, clear vision: to create an online sanctuary where women and girls can learn classical, authentic Islamic sciences with extreme confidence, respect, and academic structure.
+            {t('aboutUs.desc')}
           </p>
         </div>
       </div>
@@ -60,9 +63,9 @@ export default function AboutUsView() {
             <div className="inline-flex p-3 bg-emerald-bg text-emerald-medium rounded-xl">
               <Target className="h-6 w-6" />
             </div>
-            <h3 className="font-serif text-xl sm:text-2xl font-bold text-neutral-900">Our Noble Mission</h3>
+            <h3 className="font-serif text-xl sm:text-2xl font-bold text-neutral-900">{t('aboutUs.mission')}</h3>
             <p className="text-xs sm:text-sm text-neutral-600 font-light leading-relaxed">
-              Our mission is to empower Muslim women and young girls globally by providing structured, accessible, and high-quality classical Islamic education. We aim to clarify common jurisprudence issues, teach pristine Qur'anic recitation (Tajweed), and guide sisters toward self-rectification (Tazkiyah) and a peaceful, confident Islamic lifestyle, completely free from cultural innovations.
+              {t('aboutUs.missionDesc')}
             </p>
           </div>
 
@@ -72,9 +75,9 @@ export default function AboutUsView() {
             <div className="inline-flex p-3 bg-gold-light text-gold-deep rounded-xl">
               <Eye className="h-6 w-6" />
             </div>
-            <h3 className="font-serif text-xl sm:text-2xl font-bold text-neutral-900">Our Divine Vision</h3>
+            <h3 className="font-serif text-xl sm:text-2xl font-bold text-neutral-900">{t('aboutUs.vision')}</h3>
             <p className="text-xs sm:text-sm text-neutral-600 font-light leading-relaxed">
-              We envision a world where every Muslimah stands as a confident beacon of light and piety in her home and society. By understanding the direct translation and exegesis (Tafseer) of the Qur'an and the blessed traditions (Sunnah) of our Beloved Prophet Muhammad ﷺ, we hope to raise a generation of mothers, daughters, and teachers who preserve classical theology with sincere devotion and wisdom.
+              {t('aboutUs.visionDesc')}
             </p>
           </div>
 
@@ -89,10 +92,10 @@ export default function AboutUsView() {
 
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-12 relative z-10">
           <div className="text-center max-w-2xl mx-auto space-y-3">
-            <span className="text-xs font-serif font-bold text-gold-soft uppercase tracking-widest">The Pillars of our Creed</span>
-            <h3 className="font-serif text-2xl sm:text-3xl font-extrabold text-white">Our Core Spiritual Values</h3>
+            <span className="text-xs font-serif font-bold text-gold-soft uppercase tracking-widest">{t('values.badge')}</span>
+            <h3 className="font-serif text-2xl sm:text-3xl font-extrabold text-white">{t('values.title')}</h3>
             <p className="text-xs sm:text-sm text-neutral-200 font-light leading-relaxed">
-              At Tafheem-ul-Islam Academy, our operations, curriculum, and interactions are bound by sacred principles that ensure spiritual barakah (blessings).
+              {t('values.desc')}
             </p>
           </div>
 
@@ -126,22 +129,22 @@ export default function AboutUsView() {
           <div className="lg:col-span-8 space-y-6">
             <div className="space-y-2">
               <span className="text-[10px] font-bold tracking-widest uppercase text-emerald-medium bg-emerald-bg px-2.5 py-1 rounded">
-                100% Secure Sisters Haven
+                {t('secure.badge')}
               </span>
               <h3 className="font-serif text-xl sm:text-2xl font-bold text-neutral-900">
-                Pioneering Female Digital Privacy Protocols
+                {t('secure.title')}
               </h3>
               <p className="text-xs sm:text-sm text-neutral-600 font-light leading-relaxed">
-                We understand that privacy is the absolute priority for sisters studying online. Tafheem-ul-Islam Academy has developed strict digital protocols to ensure complete peace of mind:
+                {t('secure.desc')}
               </p>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {[
-                { title: "No Class Video Sharing", desc: "No live recordings containing student visual screens or student audio are ever shared publicly or exported." },
-                { title: "Camera Privacy Safeguards", desc: "Cameras are kept completely optional and are restricted strictly to direct female instructors when necessary for Tajweed assessments." },
-                { title: "Female-Only Student Pool", desc: "Admission registration is strictly vetted. No male students or administrators have access to any sister portals." },
-                { title: "Confidential Counselling", desc: "Personal Fiqh questions or Tarbiyah counselling sessions are handled entirely on secure, encrypted private channels." }
+                { title: t('secure.feat1.title'), desc: t('secure.feat1.desc') },
+                { title: t('secure.feat2.title'), desc: t('secure.feat2.desc') },
+                { title: t('secure.feat3.title'), desc: t('secure.feat3.desc') },
+                { title: t('secure.feat4.title'), desc: t('secure.feat4.desc') }
               ].map((item, idx) => (
                 <div key={idx} className="space-y-1">
                   <h4 className="text-xs font-serif font-bold text-neutral-900">{item.title}</h4>
@@ -157,3 +160,4 @@ export default function AboutUsView() {
     </div>
   );
 }
+

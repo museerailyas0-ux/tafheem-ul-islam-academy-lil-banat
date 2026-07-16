@@ -3,16 +3,24 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { useLanguage } from '../LanguageContext';
 import { ActivePage } from '../types';
-import { Mail, Phone, Clock, Star, ShieldCheck, Heart } from 'lucide-react';
-import logoUrl from '../assets/images/academy_logo_1783500105618.jpg';
+import { Mail, Phone, Clock, ShieldCheck, Heart } from 'lucide-react';
+import logoUrl from '../assets/images/official_logo.jpg';
 
 interface FooterProps {
   setActivePage: (page: ActivePage) => void;
+  openAdmissionModal: () => void;
 }
 
-export default function Footer({ setActivePage }: FooterProps) {
+export default function Footer({ setActivePage, openAdmissionModal }: FooterProps) {
+  const { t } = useLanguage();
+
   const handleNavClick = (pageId: ActivePage) => {
+    if (pageId === 'admission') {
+      openAdmissionModal();
+      return;
+    }
     setActivePage(pageId);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -44,45 +52,49 @@ export default function Footer({ setActivePage }: FooterProps) {
               </div>
               <div>
                 <h3 className="font-serif text-base font-bold tracking-wider text-gold-soft leading-none">
-                  TAFHEEM-UL-ISLAM
+                  {t('brandName')}
                 </h3>
                 <p className="font-sans text-[10px] tracking-widest text-white/80 uppercase mt-1">
-                  Online Academy Lil Banat
+                  {t('brandSub')}
                 </p>
               </div>
             </div>
 
             <p className="text-xs text-neutral-300 font-light leading-relaxed">
-              A registered non-profit educational sanctuary dedicated to preserving and transmitting sacred Islamic knowledge. Taught exclusively by certified female scholars (Alimahs) to daughters and mothers worldwide.
+              {t('footer.tagline')}
             </p>
 
             <div className="flex items-center space-x-2 bg-emerald-medium/40 border border-gold-soft/20 p-3 rounded-lg max-w-xs">
               <ShieldCheck className="h-5 w-5 text-gold-soft shrink-0" />
-              <p className="text-[10px] text-neutral-200 leading-normal font-light">
-                Secure virtual space adhering to the highest standards of modesty and digital privacy.
-              </p>
+              <div className="space-y-0.5">
+                <h5 className="text-[10px] font-bold text-gold-soft uppercase tracking-wider">{t('footer.privacyTitle')}</h5>
+                <p className="text-[10px] text-neutral-200 leading-normal font-light">
+                  {t('footer.privacyDesc')}
+                </p>
+              </div>
             </div>
           </div>
 
           {/* Quick Links Column */}
           <div className="lg:col-span-2 space-y-4">
-            <h4 className="text-xs font-serif font-bold text-gold-soft tracking-widest uppercase">Quick Links</h4>
+            <h4 className="text-xs font-serif font-bold text-gold-soft tracking-widest uppercase">{t('footer.academicLinks')}</h4>
             <ul className="space-y-2 text-xs">
               {[
-                { id: 'home', label: 'Home' },
-                { id: 'about', label: 'About Us' },
-                { id: 'courses', label: 'Courses Syllabus' },
-                { id: 'principal', label: 'Our Teacher' },
-                { id: 'activities', label: 'Achievements' },
-                { id: 'faq', label: 'Frequently Asked' },
-                { id: 'contact', label: 'Contact Support' }
+                { id: 'home', labelKey: 'nav.home' },
+                { id: 'about', labelKey: 'nav.about' },
+                { id: 'courses', labelKey: 'nav.courses' },
+                { id: 'admission', labelKey: 'nav.admission' },
+                { id: 'principal', labelKey: 'nav.principal' },
+                { id: 'activities', labelKey: 'nav.activities' },
+                { id: 'faq', labelKey: 'nav.faq' },
+                { id: 'contact', labelKey: 'nav.contact' }
               ].map((link) => (
                 <li key={link.id}>
                   <button
                     onClick={() => handleNavClick(link.id as ActivePage)}
                     className="text-neutral-300 hover:text-gold-soft transition-colors cursor-pointer text-left"
                   >
-                    {link.label}
+                    {t(link.labelKey)}
                   </button>
                 </li>
               ))}
@@ -91,21 +103,21 @@ export default function Footer({ setActivePage }: FooterProps) {
 
           {/* Core Classes Column */}
           <div className="lg:col-span-3 space-y-4">
-            <h4 className="text-xs font-serif font-bold text-gold-soft tracking-widest uppercase">Core Subjects</h4>
+            <h4 className="text-xs font-serif font-bold text-gold-soft tracking-widest uppercase">{t('nav.courses')}</h4>
             <ul className="space-y-2 text-xs text-neutral-300">
-              <li>• Qur'an Recitation & Tajweed</li>
-              <li>• Hifz (Quran Memorization)</li>
-              <li>• Classical Tafseer & Exegesis</li>
-              <li>• Hadith Studies & Sunnah</li>
-              <li>• Fiqh-un-Nisa (Jurisprudence)</li>
-              <li>• Seerah-tun-Nabi ﷺ (History)</li>
-              <li>• Tarbiyah & Islamic Lifestyle</li>
+              <li>• {t('courses.course1.title')}</li>
+              <li>• {t('courses.course2.title')}</li>
+              <li>• {t('courses.course3.title')}</li>
+              <li>• {t('courses.course4.title')}</li>
+              <li>• {t('courses.course5.title')}</li>
+              <li>• {t('courses.course6.title')}</li>
+              <li>• {t('courses.course7.title')}</li>
             </ul>
           </div>
 
           {/* Contact Details Column */}
           <div className="lg:col-span-3 space-y-4">
-            <h4 className="text-xs font-serif font-bold text-gold-soft tracking-widest uppercase">Get in Touch</h4>
+            <h4 className="text-xs font-serif font-bold text-gold-soft tracking-widest uppercase">{t('nav.contact')}</h4>
             <ul className="space-y-3 text-xs text-neutral-300">
               <li className="flex items-center space-x-2">
                 <Mail className="h-4 w-4 text-gold-soft shrink-0" />
@@ -116,16 +128,16 @@ export default function Footer({ setActivePage }: FooterProps) {
               <li className="flex items-center space-x-2">
                 <Phone className="h-4 w-4 text-gold-soft shrink-0" />
                 <a href="tel:+923232358394" className="hover:text-gold-soft hover:underline transition-colors">
-                  +92 323 2358394 (WhatsApp Only)
+                  +92 323 2358394
                 </a>
               </li>
               <li className="flex items-center space-x-2">
-                <Clock className="h-4 w-4 text-gold-soft" />
-                <span>Mon - Sat (9:00 AM - 6:00 PM)</span>
+                <Clock className="h-4 w-4 text-gold-soft shrink-0" />
+                <span>{t('contact.hoursTitle')}</span>
               </li>
               <li className="flex items-center space-x-2 text-gold-soft font-semibold">
-                <Heart className="h-4 w-4 fill-gold-soft text-gold-soft animate-pulse" />
-                <span>Support our Non-Profit Mission</span>
+                <Heart className="h-4 w-4 fill-gold-soft text-gold-soft animate-pulse shrink-0" />
+                <span>{t('contact.badge')}</span>
               </li>
             </ul>
           </div>
@@ -138,10 +150,7 @@ export default function Footer({ setActivePage }: FooterProps) {
         {/* Footer Bottom Metadata */}
         <div className="flex flex-col sm:flex-row items-center justify-between text-[11px] text-neutral-400 gap-4">
           <div className="space-y-1 text-center sm:text-left">
-            <p>© {new Date().getFullYear()} Tafheem-ul-Islam Academy Lil Banat. All rights reserved.</p>
-            <p className="text-[10px] text-neutral-500 font-light">
-              This is a registered non-profit educational institution. Certified under Wifaq-ul-Madaris standards.
-            </p>
+            <p>© {new Date().getFullYear()} {t('footer.copyright')}</p>
           </div>
           <div className="flex items-center space-x-3 text-gold-soft/80 font-arabic text-sm tracking-wide">
             <span>وَتَعَاوَنُوا عَلَى الْبِرِّ وَالتَّقْوَىٰ</span>

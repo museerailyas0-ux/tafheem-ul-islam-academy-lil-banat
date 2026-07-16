@@ -4,10 +4,11 @@
  */
 
 import { useState } from 'react';
-import { FAQS_DATA } from '../data';
-import { HelpCircle, ChevronDown, ChevronUp, Search, MessageSquare, Phone } from 'lucide-react';
+import { HelpCircle, ChevronDown, ChevronUp, Search, Phone } from 'lucide-react';
+import { useLanguage } from '../LanguageContext';
 
 export default function FaqView() {
+  const { t, faqs } = useLanguage();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<'All' | 'Admission' | 'Classes' | 'Academy' | 'Fees'>('All');
   const [openFaqId, setOpenFaqId] = useState<string | null>('faq1'); // First FAQ open by default
@@ -17,11 +18,11 @@ export default function FaqView() {
   };
 
   const handleWhatsAppChat = () => {
-    window.open(`https://wa.me/923123456789`, '_blank');
+    window.open(`https://wa.me/923232358394`, '_blank');
   };
 
   // Filter FAQs based on query and category
-  const filteredFaqs = FAQS_DATA.filter((faq) => {
+  const filteredFaqs = faqs.filter((faq) => {
     const matchesSearch = faq.question.toLowerCase().includes(searchQuery.toLowerCase()) || 
                           faq.answer.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesCategory = selectedCategory === 'All' || faq.category === selectedCategory;
@@ -35,13 +36,13 @@ export default function FaqView() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-3xl mx-auto space-y-4">
           <span className="text-xs font-serif font-bold tracking-widest text-gold-deep uppercase bg-gold-light px-3 py-1.5 rounded-full border border-gold-soft/30">
-            Answers & Clarity
+            {t('faq.badge')}
           </span>
           <h2 className="font-serif text-3xl sm:text-4xl font-extrabold text-neutral-900 tracking-tight leading-tight">
-            Frequently Asked Questions
+            {t('faq.title')}
           </h2>
           <p className="text-sm sm:text-base text-neutral-600 font-light leading-relaxed">
-            Everything you need to know about our virtual classrooms, female scholars, class timings, certificate tracks, and non-profit admissions.
+            {t('faq.desc')}
           </p>
         </div>
       </div>
@@ -56,7 +57,7 @@ export default function FaqView() {
           </div>
           <input
             type="text"
-            placeholder="Type your question here (e.g. fees, zoom, timings)..."
+            placeholder={t('faq.searchPlaceholder')}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="block w-full py-4 pl-11 pr-4 text-xs sm:text-sm text-neutral-800 placeholder-neutral-400 focus:outline-none bg-transparent"
@@ -75,7 +76,11 @@ export default function FaqView() {
                   : 'bg-white text-neutral-600 border-neutral-200 hover:bg-neutral-50'
               }`}
             >
-              {cat}
+              {cat === 'All' ? t('faq.catAll') : 
+               cat === 'Academy' ? t('faq.catAcademy') : 
+               cat === 'Classes' ? t('faq.catClasses') : 
+               cat === 'Admission' ? t('faq.catAdmission') : 
+               t('faq.catFees')}
             </button>
           ))}
         </div>
@@ -127,7 +132,7 @@ export default function FaqView() {
           </div>
         ) : (
           <div className="text-center py-12 bg-white rounded-2xl border border-neutral-100">
-            <p className="text-sm text-neutral-500 font-light">No questions match your filter query. Try searching for something else.</p>
+            <p className="text-sm text-neutral-500 font-light">{t('faq.noResults')}</p>
           </div>
         )}
       </div>
@@ -138,9 +143,9 @@ export default function FaqView() {
           <div className="absolute top-0 right-0 w-32 h-32 rounded-full border border-white/5 -mr-10 -mt-10"></div>
           
           <div className="space-y-2 relative z-10">
-            <h3 className="font-serif text-lg sm:text-xl font-bold">Still have a specific question?</h3>
+            <h3 className="font-serif text-lg sm:text-xl font-bold">{t('faq.ctaTitle')}</h3>
             <p className="text-xs sm:text-sm text-neutral-200 font-light max-w-md mx-auto leading-relaxed">
-              Assalamu Alaikum. If you have any personal questions about class timings, child placement, or need assistance, chat with our sister coordinators on WhatsApp.
+              {t('faq.ctaDesc')}
             </p>
           </div>
 
@@ -150,7 +155,7 @@ export default function FaqView() {
               className="inline-flex items-center space-x-2 bg-gradient-to-r from-gold-deep via-gold-soft to-gold-deep text-emerald-deep px-6 py-3 rounded-full text-xs font-bold tracking-wider uppercase shadow-md hover:scale-[1.03] transition-transform cursor-pointer"
             >
               <Phone className="h-4 w-4" />
-              <span>Message Admissions Desk</span>
+              <span>{t('faq.ctaBtn')}</span>
             </button>
           </div>
         </div>
@@ -159,3 +164,4 @@ export default function FaqView() {
     </div>
   );
 }
+
