@@ -8,7 +8,6 @@ import { useLanguage } from '../LanguageContext';
 import { ActivePage } from '../types';
 import { Menu, X, GraduationCap, ArrowRight } from 'lucide-react';
 import logoUrl from '../assets/images/official_logo.jpg';
-
 interface HeaderProps {
   activePage: ActivePage;
   setActivePage: (page: ActivePage) => void;
