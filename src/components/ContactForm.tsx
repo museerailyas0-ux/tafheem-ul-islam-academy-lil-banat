@@ -8,7 +8,7 @@ import { Mail, Phone, MapPin, Send, CheckCircle, Clock } from 'lucide-react';
 import { useLanguage } from '../LanguageContext';
 
 export default function ContactForm() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
 
   const [formData, setFormData] = useState({
     name: '',
@@ -22,25 +22,47 @@ export default function ContactForm() {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setSubmitError(null);
     
-    // Simulate real submission
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setIsSubmitted(true);
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        course: 'tajweed-quran',
-        ageGroup: '18-above',
-        country: '',
-        message: ''
+    try {
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          access_key: '103fec67-d1fb-4418-8c21-8a99396b66e6',
+          ...formData
+        })
       });
-    }, 1500);
+
+      const result = await response.json();
+      if (response.ok && result.success) {
+        setIsSubmitted(true);
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          course: 'tajweed-quran',
+          ageGroup: '18-above',
+          country: '',
+          message: ''
+        });
+      } else {
+        throw new Error(result.message || 'Submission failed');
+      }
+    } catch (err: any) {
+      console.error(err);
+      setSubmitError(err.message || 'Something went wrong. Please check your connection and try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -166,10 +188,12 @@ export default function ContactForm() {
                   </div>
                   <div className="space-y-2">
                     <h3 className="font-serif text-xl sm:text-2xl font-bold text-neutral-900">
-                      {t('contact.success')}
+                      {language === 'ur' ? 'جزاک اللہ!' : 'JazakAllah!'}
                     </h3>
                     <p className="text-xs sm:text-sm text-neutral-600 font-light max-w-md mx-auto leading-relaxed">
-                      {t('contact.successDesc')}
+                      {language === 'ur' 
+                        ? 'آپ کا رجسٹریشن کامیابی سے جمع ہو گیا ہے۔ ہم جلد ہی آپ سے رابطہ کریں گے، ان شاء اللہ۔' 
+                        : 'Your registration has been submitted successfully. We will contact you soon, In Sha Allah.'}
                     </p>
                   </div>
                   <button
@@ -181,6 +205,7 @@ export default function ContactForm() {
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-6">
+                  <input type="hidden" name="access_key" value="103fec67-d1fb-4418-8c21-8a99396b66e6" />
                   
                   <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                     {/* Full Name */}
@@ -284,6 +309,12 @@ export default function ContactForm() {
                       className="w-full rounded-xl border border-neutral-200 bg-neutral-50 px-4 py-3 text-xs sm:text-sm text-neutral-800 placeholder-neutral-400 focus:border-emerald-medium focus:bg-white focus:outline-none transition-all resize-none"
                     />
                   </div>
+
+                  {submitError && (
+                    <div className="p-4 bg-red-50 border border-red-200 text-red-700 text-xs rounded-xl font-medium">
+                      {submitError}
+                    </div>
+                  )}
 
                   {/* Submit Button */}
                   <div className="pt-2">

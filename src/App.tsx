@@ -620,12 +620,12 @@ export default function App() {
               {/* Text Details */}
               <div className="space-y-1 pr-6 flex-grow">
                 <h4 className="font-serif text-sm font-bold text-neutral-900 tracking-tight">
-                  {language === 'en' ? 'Admission Request Submitted!' : 'داخلہ کی درخواست کامیابی سے موصول ہو گئی!'}
+                  {language === 'en' ? 'JazakAllah!' : 'جزاک اللہ!'}
                 </h4>
                 <p className="text-[11px] text-neutral-600 font-light leading-relaxed">
                   {language === 'en' 
-                    ? 'JazakAllahu Khairan. Our administrative female scholar will contact you on WhatsApp within 24 hours to schedule your free trial session.' 
-                    : 'جزاک اللہ خیرا۔ ہماری انتظامی معلمہ اگلی آزمائشی کلاس شیڈول کرنے کے لیے اگلے 24 گھنٹوں میں آپ کے فراہم کردہ واٹس ایپ نمبر پر رابطہ کریں گی۔'}
+                    ? 'Your registration has been submitted successfully. We will contact you soon, In Sha Allah.' 
+                    : 'آپ کا رجسٹریشن کامیابی سے جمع ہو گیا ہے۔ ہم جلد ہی آپ سے رابطہ کریں گے، ان شاء اللہ۔'}
                 </p>
               </div>
               

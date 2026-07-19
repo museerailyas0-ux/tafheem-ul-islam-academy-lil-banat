@@ -66,51 +66,32 @@ export default function AdmissionModal({ isOpen, onClose, onSuccess }: Admission
     setSubmitError(null);
 
     const submissionPayload = {
-      studentName,
-      parentName,
-      age,
-      country,
-      city,
-      whatsapp,
-      email,
-      selectedCourse: selectedCourse || t(COURSE_KEYS[0]),
-      timing,
-      message
+      access_key: '103fec67-d1fb-4418-8c21-8a99396b66e6',
+      'Student Name': studentName,
+      'Parent/Guardian Name': parentName,
+      'Age': age,
+      'Country': country,
+      'City': city,
+      'WhatsApp Number': whatsapp,
+      'Email Address': email,
+      'Selected Course': selectedCourse || t(COURSE_KEYS[0]),
+      'Preferred Timing': timing,
+      'Message/Notes': message
     };
 
     try {
-      // Frontend-only submission to Google Apps Script.
-      // Replace this placeholder with your actual Google Apps Script Web App URL.
-      const GOOGLE_SCRIPT_URL = "https://SCRIPT_URL";
-
-      if (GOOGLE_SCRIPT_URL === "https://SCRIPT_URL") {
-        console.warn("Using placeholder Google Apps Script URL. Simulating successful form submission.");
-        // Reset form fields
-        setStudentName('');
-        setParentName('');
-        setAge('');
-        setCountry('');
-        setCity('');
-        setWhatsapp('');
-        setEmail('');
-        setSelectedCourse('');
-        setTiming('');
-        setMessage('');
-        
-        onSuccess();
-        onClose();
-        return;
-      }
-
-      const response = await fetch(GOOGLE_SCRIPT_URL, {
+      const response = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
         headers: { 
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
         },
         body: JSON.stringify(submissionPayload)
       });
 
-      if (response.ok) {
+      const result = await response.json();
+
+      if (response.ok && result.success) {
         // Reset form fields
         setStudentName('');
         setParentName('');
@@ -126,7 +107,7 @@ export default function AdmissionModal({ isOpen, onClose, onSuccess }: Admission
         onSuccess();
         onClose();
       } else {
-        throw new Error('Submission failed');
+        throw new Error(result.message || 'Submission failed');
       }
     } catch (err: any) {
       console.error(err);
@@ -202,6 +183,7 @@ export default function AdmissionModal({ isOpen, onClose, onSuccess }: Admission
             {/* Admission Form */}
             <div className="max-h-[85vh] overflow-y-auto">
               <form onSubmit={handleSubmit} className="p-6 sm:p-10 space-y-6">
+                <input type="hidden" name="access_key" value="103fec67-d1fb-4418-8c21-8a99396b66e6" />
                 
                 {/* Modal Header */}
                 <div className="text-center space-y-2 pb-4 border-b border-neutral-100">
